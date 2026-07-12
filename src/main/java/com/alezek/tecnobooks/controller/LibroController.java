@@ -106,10 +106,20 @@ public class LibroController {
     */
         // Luego de implementar el manejo de excepciones centralizado,
         // con @ControllerAdvice, lo anterior se transforma en:
-        Libro libroExistente = service.obtenerPorId(id);
-            libroExistente.setTitulo(libro.getTitulo());
-            libroExistente.setPrecio(libro.getPrecio());
-            return ResponseEntity.ok(libroExistente);
+        // Libro libroExistente = service.obtenerPorId(id);
+        //     libroExistente.setTitulo(libro.getTitulo());
+        //     libroExistente.setPrecio(libro.getPrecio());
+        //     return ResponseEntity.ok(libroExistente);
+        // Pasé la lógica de actualización (las 4 líneas
+        // anteriores que aún quedabanacá) al servicio,
+        // para que el controlador quede más limpio y simple.
+        // La lógica de negocio debe estar en el servicio,
+        // no en el controlador.
+        // El controller, sólo debe recibir la solicitud HTTP,
+        // enventualmente validar (cuando pongamos el hibernate validator),
+        // llamar al servicio y devolver la respuesta HTTP.
+        Libro libroActualizado = service.actualizar(id, libro);
+        return ResponseEntity.ok(libroActualizado); 
 
     }
 
