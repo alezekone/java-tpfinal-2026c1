@@ -7,12 +7,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data // Lombok - Genera getters, setters, toString, equals y hashCode.
 @NoArgsConstructor // Lombok - Genera un constructor sin argumentos.
 @AllArgsConstructor // Lombok - Genera un constructor con todos los argumentos.
+@Builder // Lombok - Permite construir objetos con los atributos 
+         //          que quiera (no solo el vacío y el full).
+         //          Lo usaré para la inserción de Libros en la BD,
+         //          para no tener que pasarle el ID, que es autogenerado.
+         //          Ver su uso en TecnobooksApplication, en el método cargarDatosIniciales().
 @Entity // JPA - Indica que esta clase es una entidad de la base de datos.
 @Table(name = "libros") // JPA - Indica el nombre de la tabla en la base de datos.
 public class Libro {
