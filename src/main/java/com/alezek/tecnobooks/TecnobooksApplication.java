@@ -1,5 +1,8 @@
 package com.alezek.tecnobooks;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +13,19 @@ import com.alezek.tecnobooks.service.LibroService;
 
 @SpringBootApplication
 public class TecnobooksApplication {
+
+	// Spring - @Value nos permite injectar valores
+	// en variables, parametros de constructores o 
+	// argumentos de métodos desde fuentes externas
+	// tales como property files, system variables o
+	// environment configs.
+	// Con ":" puedo especificar un valor por defecto,
+	// a modo de fallback.
+	@Value("${spring.datasource.password:SinContrasena}")
+	private String dbPasswordInUse;
+
+	// Crear la instancia del logger SLF4J
+    private static final Logger logger = LoggerFactory.getLogger(TecnobooksApplication.class);
 
     public static void main(String[] args) {
 		SpringApplication.run(TecnobooksApplication.class, args);
@@ -24,10 +40,14 @@ public class TecnobooksApplication {
 	// Ver: https://www.youtube.com/watch?v=WHkkeMr5muI en donde nos muestra
 	// que, siendo una interface funcional, tengo dos formas de invocarla:
 	// (1) sobrecargando el método run, o
-	// (2) como expresión lambda, como hicimos acá. Muy intersante.
+	// (2) como expresión lambda, como hicimos acá. Muy interesante.
 	@Bean
 	public CommandLineRunner cargarDatosIniciales(LibroService libroService) {
 		return args -> {
+			logger.debug("Toma como contraseña de la DB: {}", dbPasswordInUse);
+			// System.out.println("***************************************");
+			// System.out.println("******* Viendo si esto funciona *******");
+			// System.out.println("***************************************");
 			if(libroService.listarTodos().isEmpty()) {
 				// Cargamos unos libros solo si la tabla de libros
 				// está vacía en la BD.

@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### .env files ### (lo agreo yo)
+.env.properties
+
+
+### Para no subir los logs generados por SLF4J
+/logs
+
